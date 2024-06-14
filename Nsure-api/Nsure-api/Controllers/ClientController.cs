@@ -30,6 +30,32 @@ namespace Nsure_api.Controllers
             return Ok(ClientDetails);
         }
 
+        [HttpDelete]
+        public IActionResult Delete(int Delete)
+        {
+            var ClientId = _db.Clients.Find(Delete);
+            if (ClientId == null)
+            {
+                return NotFound();
+            }
+            _db.Clients.Remove(ClientId);
+            _db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut("{name}")]
+        public IActionResult Put([FromBody] Client model)
+        {
+            var ClientName = _db.Clients.Find(model.Id);
+            if (ClientName == null)
+            {
+                return NotFound();
+            }
+            ClientName.name = model.name;
+            _db.SaveChanges();
+            return Ok();
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] Client client)
         {
