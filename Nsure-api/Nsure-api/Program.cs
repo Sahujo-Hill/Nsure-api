@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Nsure.api.Nsure.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,9 +11,9 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 {
-    options.UseSqlServer("Server=(localdb)\MSSQLLocalDb;Database=InsuranceSolutionDb;Integrated Security=true", b =>
+    options.UseSqlServer("Server=(localdb)\\MSSQLLocalDb;Database=Nsure-api;Integrated Security=true", b =>
     {
-        b.MigrationsAssembly("InsuranceSolution.Api");
+        b.MigrationsAssembly("Nsure-api");
     });
 });
 

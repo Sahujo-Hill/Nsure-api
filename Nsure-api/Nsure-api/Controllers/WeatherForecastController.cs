@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Nsure.api.Controllers
+namespace Nsure_api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

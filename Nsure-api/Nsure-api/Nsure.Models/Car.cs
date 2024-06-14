@@ -2,6 +2,7 @@
 {
     public class Car
     {
+        public int Id { get; set; }
         public DateTime renewalDate { get; set; }
         public DateTime inceptionDate { get; set; }
         public string coverTier { get; set; }

@@ -1,4 +1,4 @@
-namespace Nsure.api
+namespace Nsure_api
 {
     public class WeatherForecast
     {
