@@ -3,8 +3,10 @@ using Nsure.api.Nsure.Models;
 
 namespace Nsure_api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("[controller]")]
+
+
     public class ClientController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -18,15 +20,23 @@ namespace Nsure_api.Controllers
         {
             var Clients = _db.Clients.ToArray();
 
-            var ClientDetails = Clients.Select(
-                x 
-            );
-            return Ok( ClientDetails );
+            var ClientDetails = Clients.Select(Clients => new
+            {
+                Clients.name,
+                Clients.policies
+
+            });
+
+            return Ok(ClientDetails);
         }
 
-        public IActionResult Index()
+        [HttpPost]
+        public IActionResult Post([FromBody] Client client)
         {
-            return View();
+            _db.Clients.Add(client);
+            _db.SaveChanges();
+            return Ok();
         }
+
     }
 }
