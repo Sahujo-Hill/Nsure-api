@@ -23,7 +23,9 @@ namespace Nsure_api.Controllers
             var ClientDetails = Clients.Select(Clients => new
             {
                 Clients.name,
-                Clients.policies
+                Clients.carPolicy,
+                Clients.homePolicy,
+                Clients.lifePolicy,
 
             });
 
@@ -43,7 +45,7 @@ namespace Nsure_api.Controllers
             return Ok();
         }
 
-        [HttpPut("{name}")]
+        /*[HttpPut("{name}")]
         public IActionResult Put([FromBody] Client model)
         {
             var ClientName = _db.Clients.Find(model.Id);
@@ -54,7 +56,7 @@ namespace Nsure_api.Controllers
             ClientName.name = model.name;
             _db.SaveChanges();
             return Ok();
-        }
+        }*/
 
         [HttpPost]
         public IActionResult Post([FromBody] Client client)

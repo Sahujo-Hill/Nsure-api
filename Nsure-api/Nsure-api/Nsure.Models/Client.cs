@@ -6,6 +6,8 @@ namespace Nsure.api.Nsure.Models
     {
         public int Id { get; set; }
         public string name { get; set; }
-        public string policies { get; set; }
+        public bool carPolicy { get; set; }
+        public bool homePolicy { get; set; }
+        public bool lifePolicy { get; set; }
     }
 }
