@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Nsure.api.Nsure.Models;
+using Nsure_api.DTOs;
 
 namespace Nsure_api.Controllers
 {
@@ -54,6 +56,42 @@ namespace Nsure_api.Controllers
         {
             _db.Life.Add(Life);
             _db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> UpdateLife(int Id, [FromBody] UpdateLife updateLifeDTO)
+        {
+            if (Id != updateLifeDTO.Id)
+            {
+                return NotFound();
+            }
+            var LifePolicy = await _db.Life.FindAsync(Id);
+            if (LifePolicy == null)
+            {
+                return NotFound();
+            }
+            LifePolicy.coverTier = updateLifeDTO.coverTier;
+            LifePolicy.nameInsured = updateLifeDTO.nameInsured;
+            LifePolicy.coverType = updateLifeDTO.coverType;
+            LifePolicy.benefitAmount = updateLifeDTO.benefitAmount;
+            LifePolicy.benefitPeriod = updateLifeDTO.benefitPeriod;
+            LifePolicy.basisOfAdvice = updateLifeDTO.basisOfAdvice;
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_db.Clients.Any(e => e.Id == Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return Ok();
         }
 

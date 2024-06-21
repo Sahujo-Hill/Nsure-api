@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Nsure.api.Nsure.Models;
+using Nsure_api.DTOs;
 
 namespace Nsure_api.Controllers
 {
@@ -45,24 +47,42 @@ namespace Nsure_api.Controllers
             return Ok();
         }
 
-        /*[HttpPut("{name}")]
-        public IActionResult Put([FromBody] Client model)
-        {
-            var ClientName = _db.Clients.Find(model.Id);
-            if (ClientName == null)
-            {
-                return NotFound();
-            }
-            ClientName.name = model.name;
-            _db.SaveChanges();
-            return Ok();
-        }*/
-
         [HttpPost]
         public IActionResult Post([FromBody] Client client)
         {
             _db.Clients.Add(client);
             _db.SaveChanges();
+            return Ok();
+        }
+
+        [HttpPut("{Id}")]
+        public async Task<IActionResult> UpdateUser(int Id, [FromBody] UpdateUser updateUserDTO)
+        {
+            if (Id != updateUserDTO.Id)
+            {
+                return NotFound();
+            }
+            var user = await _db.Clients.FindAsync(Id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            user.name = updateUserDTO.name;
+            try
+            {
+                await _db.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_db.Clients.Any(e => e.Id == Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return Ok();
         }
 
